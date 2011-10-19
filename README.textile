@@ -130,11 +130,12 @@ For invoking an Action from another Action of the same Controller, you must call
 * render("@package.Controller.action")
 
 bc. public class ControllerA extends Controller {
-    public static actionOne() {
+    public static void actionOne() {
         render("@actionTwo"); // renders views/Controller/action.html
     }
-    public static actionTwo(){
+    public static void actionTwo(){
         // Do logic...
+        // Invoked from actionOne
         render()
     }
 }
