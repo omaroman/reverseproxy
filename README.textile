@@ -62,18 +62,18 @@ however, if your certificate doesn't use the default names, you must add your cu
 
 *You can generate self signed certificates using openssl:*
 # Generate a Private Key
-    bc. openssl genrsa -des3 -out host.key 1024
+<pre><code>openssl genrsa -des3 -out host.key 1024</code></pre>
 # Generate a CSR (Certificate Signing Request)
-bc. openssl req -new -key host.key -out host.csr
+<pre><code>openssl req -new -key host.key -out host.csr</code></pre>
 # Remove Passphrase from Key
-bc. cp server.key server.key.org
-openssl rsa -in server.key.org -out server.key
+<pre><code>cp server.key server.key.org
+openssl rsa -in server.key.org -out server.key</code></pre>
 # Generating a Self-Signed Certificate
-bc. openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+<pre><code>openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt</code></pre>
 # Installing the Private Key and Certificate
-bc. Depends on the Reverse-Proxy server.
+<pre><code>Depends on the Reverse-Proxy server.</code></pre>
 # Configuring SSL Enabled Virtual Hosts
-bc. Depends on the Reverse-Proxy server.
+<pre><code>Depends on the Reverse-Proxy server.</code></pre>
 
 openssl genrsa 1024 > host.key
 openssl req -new -x509 -nodes -sha1 -days 365 -key host.key > host.cert
