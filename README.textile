@@ -110,10 +110,10 @@ public satic void restrictedMethod(){
 }
 
 In this way, a cookie is created for storing the REFERRED_URL and your app shall redirect to a authentication view (e.g., login);
-when the app validates a user is authentic, the app shall redirect to the restrictedMethod route (REFERRED_URL).
+when the app validates a user is authentic, the app shall redirect to the restrictedMethod route (URI Pattern).
 
 h3. @Interceptor
-If you going to use _interceptors_ it is suggested to decouple the _controller part_ from the _interceptor part_
+If you are going to use _interceptors_ it is suggested to decouple the _controller part_ from the _interceptor part_
 and annotate the Interceptor Class with @Interceptor, so that when the plugin enhances the controllers, skips the _interceptors_
 
 h3. Invoking Actions
@@ -142,7 +142,7 @@ bc. public class ControllerA extends Controller {
 
 h4. Invoking an _Action_ from _another Action_ of _different Controller_
 
-For invoking an Action from another Action of the same Controller, you must use its URI pattern from conf/routes file
+For invoking an Action from another Action of different Controller, you must use its Java Call from conf/routes file
 
 bc. GET     /actionTwo                            ControllerB.actionTwo
 
@@ -159,6 +159,8 @@ public class ControllerB extends Controller {
     }
 }
 
+Note *UrlUtility.redirectByReverseRouting* method that uses the Java Call as argument, which calculates the Reverse Routing (URI Pattern),
+and does the redirection.
 
 h2. Sample application
 
