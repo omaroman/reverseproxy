@@ -14,13 +14,10 @@ h2. Configuration
 
 Set the following properties in conf/application.conf
 
-    reverse_proxy.enable=true
-
-    reverse_proxy.http.address=127.0.0.1
-
-    reverse_proxy.http.port=80
-
-    reverse_proxy.https.port=443
+bc. reverse_proxy.enable=true
+reverse_proxy.http.address=127.0.0.1
+reverse_proxy.http.port=80
+reverse_proxy.https.port=443
 
 * reverse_proxy.enable - For enabling or disabling the switching between the Play-App and the Reverse-Proxy.
 * reverse_proxy.http.address - The Reverse-Proxy address.
@@ -63,9 +60,9 @@ keystore.file=conf/certificate.jks
 Note that the values above are the default values. If you use these default values, they are not required to be explicitly in application.conf file,
 however, if your certificate doesn't use the default names, you must add your custom values.
 
-You can generate self signed certificates using openssl:
+*You can generate self signed certificates using openssl:*
 # Generate a Private Key
-bc. openssl genrsa -des3 -out host.key 1024
+    bc. openssl genrsa -des3 -out host.key 1024
 # Generate a CSR (Certificate Signing Request)
 bc. openssl req -new -key host.key -out host.csr
 # Remove Passphrase from Key
