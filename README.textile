@@ -141,19 +141,17 @@ h4. Invoking an _Action_ from _another Action_ of _different Controller_
 
 For invoking an Action from another Action of the same Controller, you must use its URI pattern from conf/routes file
 
-bc. GET     /action                            Controller.action
+bc. GET     /actionTwo                            ControllerB.actionTwo
 
 bc. public class ControllerA extends Controller {
-    public static actionOne() {
-        UrlUtility.redirectByReverseRouting("Controller.action"); // Invoke GET /action
+    public static void actionOne() {
+        UrlUtility.redirectByReverseRouting("ControllerB.actionTwo"); // Invoke GET /action
     }
 }
 public class ControllerB extends Controller {
-    public static actionOne() {
-        render("@actionTwo"); // renders views/Controller/action.html
-    }
-    public static actionTwo(){
+    public static void actionTwo(){
         // Do logic...
+        // Invoked from ControllerA.actionOne
         render()
     }
 }
