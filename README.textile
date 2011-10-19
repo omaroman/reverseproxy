@@ -55,7 +55,7 @@ certificate.password=secret
 trustmanager.algorithm=JKS
 
 In case your are using keystore:
-keystore.algorithm=JKS
+bc. keystore.algorithm=JKS
 keystore.password=secret
 keystore.file=conf/certificate.jks
 
@@ -66,7 +66,8 @@ openssl genrsa 1024 > host.key
 openssl req -new -x509 -nodes -sha1 -days 365 -key host.key > host.cert
 
 If you are using the java keystore mechanism, then the following properties can be configured in your application.conf:
-# Keystore
+
+bc. # Keystore
 ssl.KeyManagerFactory.algorithm=SunX509
 trustmanager.algorithm=JKS
 keystore.password=secret
@@ -83,4 +84,4 @@ Process as follows in order to run them.
 h2. Credits
 
 Author: Omar O. Román
-Coauthor: Omar García
+Coauthor: Omar García G.
