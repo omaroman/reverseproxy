@@ -104,7 +104,6 @@ There are two annotation for forcing the communication with a Reverse-Proxy serv
         public class ControllerA extends Controller {
             ...
         }
-
         @GlobalSwitchScheme(type = SchemeType.HTTP)
         public class ControllerB extends Controller {
             ...
