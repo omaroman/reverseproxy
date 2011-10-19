@@ -113,6 +113,7 @@ In this way, a cookie is created for storing the REFERRED_URL and your app shall
 when the app validates a user is authentic, the app shall redirect to the restrictedMethod route (URI Pattern).
 
 h3. @Interceptor
+
 If you are going to use _interceptors_ it is suggested to decouple the _controller part_ from the _interceptor part_
 and annotate the Interceptor Class with @Interceptor, so that when the plugin enhances the controllers, skips the _interceptors_
 
