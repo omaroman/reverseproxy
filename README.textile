@@ -46,7 +46,7 @@ You need to put your certificates in the conf directory. Play supports X509 cert
 host.cert for the certificate and host.key for the key. If you are using keystore, then, by default it should be named certificate.jks.
 
 If you are using X509 certificates, then the following parameters can be configured though your application.conf:
-# X509 certificates
+bc. # X509 certificates
 certificate.key.file=conf/host.key
 certificate.file=conf/host.cert
 # In case your key file is password protected
