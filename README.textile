@@ -2,21 +2,24 @@ h1. ReverseProxy module for Play!
 
 h2. What is ReverseProxy?
 
-ReverseProxy switches between HTTP and HTTPS schemes by using a frontend *Reverse-Proxy* server application,
+ReverseProxy switches between HTTP and HTTPS schemes by using a frontend *Reverse-Proxy* server,
 e.g., Nginx, Apache, Lighttpd.
 
 h2. Requirements
 
 * A Reverse-Proxy server configured
-* For SSL, the *certificate* and its *key*
+* For SSL, a *certificate* and its *key*
 
 h2. Configuration
 
 Set the following properties in conf/application.conf
 
     reverse_proxy.enable=true
+
     reverse_proxy.http.address=127.0.0.1
+
     reverse_proxy.http.port=80
+
     reverse_proxy.https.port=443
 
 * reverse_proxy.enable - For enabling or disabling the switching between the Play-App and the Reverse-Proxy.
@@ -43,10 +46,10 @@ You need to put your certificates in the conf directory. Play supports X509 cert
 host.cert for the certificate and host.key for the key. If you are using keystore, then, by default it should be named certificate.jks.
 
 If you are using X509 certificates, then the following parameters can be configured though your application.conf:
-"#" X509 certificates
+# X509 certificates
 certificate.key.file=conf/host.key
 certificate.file=conf/host.cert
-"#" In case your key file is password protected
+# In case your key file is password protected
 certificate.password=secret
 trustmanager.algorithm=JKS
 
@@ -62,7 +65,7 @@ openssl genrsa 1024 > host.key
 openssl req -new -x509 -nodes -sha1 -days 365 -key host.key > host.cert
 
 If you are using the java keystore mechanism, then the following properties can be configured in your application.conf:
-"#" Keystore
+# Keystore
 ssl.KeyManagerFactory.algorithm=SunX509
 trustmanager.algorithm=JKS
 keystore.password=secret
@@ -78,4 +81,5 @@ Process as follows in order to run them.
 
 h2. Credits
 
-Author: Omar O. Román and Omar García
+Author: Omar O. Román
+Coauthor: Omar García
