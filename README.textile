@@ -24,15 +24,10 @@ reverse_proxy.https.port=443
 * reverse_proxy.http.port - The Reverse-Proxy HTTP listening port.
 * reverse_proxy.https.port - The Reverse-Proxy HTTPS listening port.
 
-h2. Usage
-
-Add this module to your dependecy.yml file
-sfgfsghjfkh
-
 h2. HTTPS support
 
 In order to communicate between Reverse-Proxy server and Play built-in server either by HTTP or HTTPS protocol,
-Play needs *Java keystore* or simple *cert and key* files and _since you have to create Certificate and its Key for the Reverse-Proxy server,
+Play needs *Java keystore* or simple *cert and key* files and _since you have to create a Certificate and its Key for the Reverse-Proxy server,
 you can use the same ones_.
 
 To start an HTTPS connector for your application, just declare the https.port configuration property in your application.conf file:
@@ -43,7 +38,7 @@ https.port=9443
 You need to put your certificates in the conf directory. Play supports X509 certificates and keystore certificates. The X509 certificates must be named as follow:
 host.cert for the certificate and host.key for the key. If you are using keystore, then, by default it should be named certificate.jks.
 
-If you are using X509 certificates, then the following parameters can be configured though your application.conf:
+If you are using X509 certificates, then the following parameters can be configured through your application.conf:
 
 bc. # X509 certificates
 certificate.key.file=conf/host.key
@@ -85,6 +80,34 @@ keystore.password=secret
 keystore.file=certificate.jks
 
 The values above are the default values.
+
+*You can generate self signed certificates using Java Keytool:*
+bc. keytool -genkey -keyalg RSA -alias selfsigned -keystore certificate.jks -storepass secret -validity 360 -keysize 1024
+
+h2. Usage
+
+Add this module to your dependecy.yml file
+
+h3. Controllers
+
+There are two annotation for forcing the communication with a Reverse-Proxy server:
+* *@SwitchScheme* is strictly for _Methods_ and has two optional values:
+** type = SchemeType.HTTP or SchemeType.HTTPS, for using either HTTP or HTTPS scheme
+** keepUrl = true or false (default value), for storing the ReferredUrl into a cookie
+
+* *@GlobalSwitchScheme* is strictly for _Classes_ and has one optional value:
+** type = SchemeType.HTTP (default value) or SchemeType.HTTPS, for using either HTTP or HTTPS scheme
+
+With GlobalSwitchScheme all Methods from a Controller will use the specified or default SchemeType value, unless
+a method(s) are annotated with SwitchScheme, in which case, that method will override the global SchemeType value.
+
+*You shall annotate a method that requires authentication/authorization as:*
+
+bc. @SwitchScheme(type = SchemeType.HTTP, keepUrl = true)
+public satic void restrictedMethod()
+
+In this way, a cookie is created for storing the REFERRED_URL and your app shall redirect to a authentication view (e.g., login);
+when the app validates that the user is authentic, afterwards the app shall redirect to the restrictedMethod route (REFERRED_URL).
 
 h2. Sample application
 
