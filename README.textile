@@ -160,8 +160,8 @@ public class ControllerB extends Controller {
     }
 }
 
-Note *UrlUtility.redirectByReverseRouting* method that uses the Java Call as argument, which calculates the Reverse Routing (URI Pattern),
-and does the redirection.
+Note *UrlUtility.redirectByReverseRouting* method expects a Java Call as argument, which calculates the Reverse Routing,
+and does the redirection according to the URI Pattern (in this example: /action).
 
 h2. Sample application
 
