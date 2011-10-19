@@ -2,7 +2,7 @@ h1. ReverseProxy module for Play!
 
 h2. What is ReverseProxy?
 
-ReverseProxy switches between HTTP and HTTPS schemes by using a frontend *Reverse-Proxy* server,
+ReverseProxy enables communication between *Play built-in server* and a *Reverse-Proxy server* either via HTTP and HTTPS schemes,
 e.g., Nginx, Apache, Lighttpd.
 
 h2. Requirements
@@ -35,8 +35,9 @@ sfgfsghjfkh
 h2. HTTPS support
 
 In order to communicate between Reverse-Proxy server and Play built-in server either by HTTP or HTTPS protocol,
-Play needs Java keystore or simple cert and key files and _since you have to create Certificate and its Key for the Reverse-Proxy server,
+Play needs *Java keystore* or simple *cert and key* files and _since you have to create Certificate and its Key for the Reverse-Proxy server,
 you can use the same ones_.
+
 To start an HTTPS connector for your application, just declare the https.port configuration property in your application.conf file:
 
 bc. http.port=9000
@@ -59,9 +60,24 @@ bc. keystore.algorithm=JKS
 keystore.password=secret
 keystore.file=conf/certificate.jks
 
-Note that the values above are the default values.
+Note that the values above are the default values. If you use these default values, they are not required to be explicitly in application.conf file,
+however, if your certificate doesn't use the default names, you must add your custom values.
 
 You can generate self signed certificates using openssl:
+# Generate a Private Key
+bc. openssl genrsa -des3 -out host.key 1024
+# Generate a CSR (Certificate Signing Request)
+bc. openssl req -new -key host.key -out host.csr
+# Remove Passphrase from Key
+bc. cp server.key server.key.org
+openssl rsa -in server.key.org -out server.key
+# Generating a Self-Signed Certificate
+bc. openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+# Installing the Private Key and Certificate
+bc. Depends on the Reverse-Proxy server.
+# Configuring SSL Enabled Virtual Hosts
+bc. Depends on the Reverse-Proxy server.
+
 openssl genrsa 1024 > host.key
 openssl req -new -x509 -nodes -sha1 -days 365 -key host.key > host.cert
 
