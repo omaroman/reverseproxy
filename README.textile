@@ -2,13 +2,14 @@ h1. ReverseProxy module for Play!
 
 h2. What is ReverseProxy?
 
-ReverseProxy enables communication between *Play built-in server* and a *Reverse-Proxy server* either via HTTP and HTTPS schemes,
+ReverseProxy enables the communication between *Play built-in server* and a *Reverse-Proxy server* either via HTTP and HTTPS schemes,
 e.g., Nginx, Apache, Lighttpd.
 
 h2. Requirements
 
 * A Reverse-Proxy server configured
 * For SSL, a *certificate* and its *key*
+* A Play! app
 
 h2. Configuration
 
@@ -30,13 +31,13 @@ In order to communicate between Reverse-Proxy server and Play built-in server ei
 Play needs *Java keystore* or simple *cert and key* files and _since you have to create a Certificate and its Key for the Reverse-Proxy server,
 you can use the same ones_.
 
-To start an HTTPS connector for your application, just declare the https.port configuration property in your application.conf file:
+To start an HTTPS connector for your application, just declare the *https.port* configuration property in your application.conf file:
 
 bc. http.port=9000
 https.port=9443
 
 You need to put your certificates in the conf directory. Play supports X509 certificates and keystore certificates. The X509 certificates must be named as follow:
-host.cert for the certificate and host.key for the key. If you are using keystore, then, by default it should be named certificate.jks.
+*host.cert* for the certificate and *host.key* for the key. If you are using keystore, then, by default it should be named *certificate.jks*.
 
 If you are using X509 certificates, then the following parameters can be configured through your application.conf:
 
@@ -53,8 +54,11 @@ bc. keystore.algorithm=JKS
 keystore.password=secret
 keystore.file=conf/certificate.jks
 
-Note that the values above are the default values. If you use these default values, they are not required to be explicitly in application.conf file,
+Note that the values above are the default ones. If you use these default values, they are not required to be explicitly in application.conf file,
 however, if your certificate doesn't use the default names, you must add your custom values.
+
+bc. certificate.key.file=conf/localhost.key
+certificate.file=conf/localhost.cert
 
 *You can generate self signed certificates using openssl:*
 # Generate a Private Key
