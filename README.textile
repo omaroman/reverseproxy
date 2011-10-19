@@ -123,9 +123,11 @@ An Action is considered to be public static void.......
 
 h4. Invoking an _Action_ from _another Action_ of the _same Controller_
 
-For invoking an Action from another Action of the same Controller, you must call
+For invoking an Action from another Action of the same Controller, you must call one of the following methods:
 
-bc. render("@action") or render("@Controller.action") or render("@package.Controller.action")
+* render("@action")
+* render("@Controller.action")
+* render("@package.Controller.action")
 
 bc. public class ControllerA extends Controller {
     public static actionOne() {
