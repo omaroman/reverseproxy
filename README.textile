@@ -100,18 +100,70 @@ There are two annotation for forcing the communication with a Reverse-Proxy serv
 ** type = SchemeType.HTTP (default value) or SchemeType.HTTPS, for using either HTTP or HTTPS protocol.
 ** keepUrl = true or false (default value), for storing the ReferredUrl into a cookie.
 ** <pre><code>
-        @GlobalSwitchScheme
         public class ControllerA extends Controller {
-            ...
-        }
-        @GlobalSwitchScheme(type = SchemeType.HTTP)
-        public class ControllerB extends Controller {
-            ...
+            @SwitchScheme
+            public static void actionTwo() {
+                // This action will use HTTP (default type)
+            }
+            @SwitchScheme(type = SchemeType.HTTP)
+            public static void actionTwo() {
+                // This action will use HTTP (explicit type)
+            }
+            @SwitchScheme(type = SchemeType.HTTPS)
+            public static void actionThree() {
+                // This action will use HTTPS (explicit type)
+            }
         }
     </code></pre>
 
 * *@GlobalSwitchScheme* is strictly for _Classes_ and has one optional value:
 ** type = SchemeType.HTTP (default value) or SchemeType.HTTPS, for using either HTTP or HTTPS protocol.
+** <pre><code>
+        @GlobalSwitchScheme
+        public class ControllerA extends Controller {
+            public static void actionOne() {
+                // This action will use HTTP (global default type)
+            }
+            @SwitchScheme
+            public static void actionTwo() {
+                // This action will use HTTP (default type)
+            }
+            @SwitchScheme(type = SchemeType.HTTP)
+            public static void actionThree() {
+                // This action will use HTTP (explicit type)
+            }
+            @SwitchScheme(type = SchemeType.HTTPS)
+            public static void actionFour() {
+                // This action will use HTTPS (explicit type)
+            }
+            // Any other action from this controller will use HTTP (global default type)
+        }
+        ---
+        @GlobalSwitchScheme(type = SchemeType.HTTP)
+        public class ControllerB extends Controller {
+            public static void actionOne() {
+                // This action will use HTTP (global type)
+            }
+            @SwitchScheme
+            public static void actionTwo() {
+                // This action will use HTTP (default type)
+            }
+            @SwitchScheme(type = SchemeType.HTTP)
+            public static void actionThree() {
+                // This action will use HTTPS
+            }
+            @SwitchScheme(type = SchemeType.HTTPS)
+            public static void actionFour() {
+                // This action will use HTTPS
+            }
+            // Any other action from this controller will use HTTP (explicit type)
+        }
+        ---
+        @GlobalSwitchScheme(type = SchemeType.HTTPS)
+        public class ControllerB extends Controller {
+            // All actions from this controller will use HTTPS (explicit global type)
+        }
+    </code></pre>
 
 With _GlobalSwitchScheme_ all Methods from a Controller will use the specified or default SchemeType value, unless
 some of its methods are annotated with SwitchScheme, in which case, those method will override the global SchemeType value.
