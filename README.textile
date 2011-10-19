@@ -82,6 +82,7 @@ keystore.file=certificate.jks
 The values above are the default values.
 
 *You can generate self signed certificates using Java Keytool:*
+
 bc. keytool -genkey -keyalg RSA -alias selfsigned -keystore certificate.jks -storepass secret -validity 360 -keysize 1024
 
 h2. Usage
@@ -92,22 +93,71 @@ h3. Controllers
 
 There are two annotation for forcing the communication with a Reverse-Proxy server:
 * *@SwitchScheme* is strictly for _Methods_ and has two optional values:
-** type = SchemeType.HTTP or SchemeType.HTTPS, for using either HTTP or HTTPS scheme
-** keepUrl = true or false (default value), for storing the ReferredUrl into a cookie
+** type = SchemeType.HTTP or SchemeType.HTTPS, for using either HTTP or HTTPS protocol.
+** keepUrl = true or false (default value), for storing the ReferredUrl into a cookie.
 
 * *@GlobalSwitchScheme* is strictly for _Classes_ and has one optional value:
-** type = SchemeType.HTTP (default value) or SchemeType.HTTPS, for using either HTTP or HTTPS scheme
+** type = SchemeType.HTTP (default value) or SchemeType.HTTPS, for using either HTTP or HTTPS protocol.
 
-With GlobalSwitchScheme all Methods from a Controller will use the specified or default SchemeType value, unless
-a method(s) are annotated with SwitchScheme, in which case, that method will override the global SchemeType value.
+With _GlobalSwitchScheme_ all Methods from a Controller will use the specified or default SchemeType value, unless
+some of its methods are annotated with SwitchScheme, in which case, those method will override the global SchemeType value.
 
 *You shall annotate a method that requires authentication/authorization as:*
 
 bc. @SwitchScheme(type = SchemeType.HTTP, keepUrl = true)
-public satic void restrictedMethod()
+public satic void restrictedMethod(){
+    ...
+}
 
 In this way, a cookie is created for storing the REFERRED_URL and your app shall redirect to a authentication view (e.g., login);
-when the app validates that the user is authentic, afterwards the app shall redirect to the restrictedMethod route (REFERRED_URL).
+when the app validates a user is authentic, the app shall redirect to the restrictedMethod route (REFERRED_URL).
+
+h3. @Interceptor
+If you going to use _interceptors_ it is suggested to decouple the _controller part_ from the _interceptor part_
+and annotate the Interceptor Class with @Interceptor, so that when the plugin enhances the controllers, skips the _interceptors_
+
+h3. Invoking Actions
+
+An Action shall not be invoking by Controller.action()
+An Action is considered to be public static void.......
+
+h4. Invoking an _Action_ from _another Action_ of the _same Controller_
+
+For invoking an Action from another Action of the same Controller, you must call
+
+bc. render("@action") or render("@Controller.action") or render("@package.Controller.action")
+
+bc. public class ControllerA extends Controller {
+    public static actionOne() {
+        render("@actionTwo"); // renders views/Controller/action.html
+    }
+    public static actionTwo(){
+        // Do logic...
+        render()
+    }
+}
+
+h4. Invoking an _Action_ from _another Action_ of _different Controller_
+
+For invoking an Action from another Action of the same Controller, you must use its URI pattern from conf/routes file
+
+bc. GET     /action                            Controller.action
+
+bc. public class ControllerA extends Controller {
+    public static actionOne() {
+        UrlUtility.redirectByReverseRouting("Controller.action"); // Invoke GET /action
+    }
+}
+public class ControllerB extends Controller {
+    public static actionOne() {
+        render("@actionTwo"); // renders views/Controller/action.html
+    }
+    public static actionTwo(){
+        // Do logic...
+        render()
+    }
+}
+
 
 h2. Sample application
 
