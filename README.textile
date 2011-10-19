@@ -142,7 +142,7 @@ There are two annotation for forcing the communication with a Reverse-Proxy serv
         @GlobalSwitchScheme(type = SchemeType.HTTP)
         public class ControllerB extends Controller {
             public static void actionOne() {
-                // This action will use HTTP (global type)
+                // This action will use HTTP (global explicit type)
             }
             @SwitchScheme
             public static void actionTwo() {
@@ -150,11 +150,11 @@ There are two annotation for forcing the communication with a Reverse-Proxy serv
             }
             @SwitchScheme(type = SchemeType.HTTP)
             public static void actionThree() {
-                // This action will use HTTPS
+                // This action will use HTTP (explicit type)
             }
             @SwitchScheme(type = SchemeType.HTTPS)
             public static void actionFour() {
-                // This action will use HTTPS
+                // This action will use HTTPS (explicit type)
             }
             // Any other action from this controller will use HTTP (explicit type)
         }
@@ -183,7 +183,7 @@ h3. @Interceptor
 If you are going to use _interceptors_ it is suggested to decouple the _controller part_ from the _interceptor part_
 and annotate the Interceptor Class with @Interceptor, so that when the plugin enhances the controllers, skips the _interceptors_
 
-See demo app for clarification
+See SecureController and SecureInterceptor for clarification
 
 h3. Invoking Actions
 
@@ -230,6 +230,13 @@ public class ControllerB extends Controller {
 
 Note *UrlUtility.redirectByReverseRouting* method expects a Java Call as argument, which calculates the Reverse Routing,
 and does the redirection according to the URI Pattern (in this example: /action).
+
+h2. Secure
+
+Do NOT use the Secure module bundled with Play, Instead use SecureController and SecureInterceptor and implement your own
+SecureController.Security for Authentication/Authorization.
+
+See demo app for clarification.
 
 h2. Sample application
 
