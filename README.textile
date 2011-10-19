@@ -53,6 +53,7 @@ certificate.password=secret
 trustmanager.algorithm=JKS
 
 In case your are using keystore:
+
 bc. keystore.algorithm=JKS
 keystore.password=secret
 keystore.file=conf/certificate.jks
@@ -74,9 +75,6 @@ openssl rsa -in server.key.org -out server.key</code></pre>
 <pre><code>Depends on the Reverse-Proxy server.</code></pre>
 # Configuring SSL Enabled Virtual Hosts
 <pre><code>Depends on the Reverse-Proxy server.</code></pre>
-
-openssl genrsa 1024 > host.key
-openssl req -new -x509 -nodes -sha1 -days 365 -key host.key > host.cert
 
 If you are using the java keystore mechanism, then the following properties can be configured in your application.conf:
 
