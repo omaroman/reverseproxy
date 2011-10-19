@@ -67,10 +67,10 @@ however, if your certificate doesn't use the default names, you must add your cu
 # Generate a CSR (Certificate Signing Request)
 <pre><code>openssl req -new -key host.key -out host.csr</code></pre>
 # Remove Passphrase from Key
-<pre><code>cp server.key server.key.org
-openssl rsa -in server.key.org -out server.key</code></pre>
+<pre><code>cp host.key host.key.org
+openssl rsa -in host.key.org -out host.key</code></pre>
 # Generating a Self-Signed Certificate
-<pre><code>openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt</code></pre>
+<pre><code>openssl x509 -req -days 365 -in host.csr -signkey host.key -out host.crt</code></pre>
 # Installing the Private Key and Certificate
 <pre><code>Depends on the Reverse-Proxy server.</code></pre>
 # Configuring SSL Enabled Virtual Hosts
