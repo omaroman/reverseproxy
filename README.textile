@@ -200,6 +200,19 @@ bc. public class ControllerA extends Controller {
         render()
     }
 }
+---
+public class ControllerA extends Controller {
+    public static void actionOne() {
+        ControllerA.actionTwo();    // Will change the URL -> http://domain:9443/actiontwo
+    }
+    -
+    // Let's supposed this action uses HTTPS
+    public static void actionTwo(){
+        // Do logic...
+        // Invoked from actionOne
+        render()
+    }
+}
 
 Remember an *Action* must be *public static void*
 
