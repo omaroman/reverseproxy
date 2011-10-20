@@ -187,8 +187,19 @@ See SecureController and SecureInterceptor for clarification, both of them inclu
 
 h3. Invoking Actions
 
-An Action from another Action shall NOT be INVOKED like a regular Java call, i.e., Controller.action(),
+An Action from _another Action_ shall NOT be INVOKED like a regular Java call, i.e., Controller.action(),
 if you do this way, Play built-in server won't communicate with the Reverse-Proxy, it will communicate with itself and will change the port to the corresponding scheme (HTTP or HTTPS).
+
+bc. public class ControllerA extends Controller {
+    public static void actionOne() {
+        ControllerA.actionTwo();    // Will change the URL -> http://domain:9000/actiontwo
+    }
+    public static void actionTwo(){
+        // Do logic...
+        // Invoked from actionOne
+        render()
+    }
+}
 
 Remember an *Action* must be *public static void*
 
@@ -202,7 +213,7 @@ For invoking an Action from another Action of the same Controller, you must call
 
 bc. public class ControllerA extends Controller {
     public static void actionOne() {
-        render("@actionTwo"); // renders views/Controller/action.html
+        render("@actionTwo"); // renders views/Controller/actiontwo.html
     }
     public static void actionTwo(){
         // Do logic...
