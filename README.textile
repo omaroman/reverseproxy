@@ -96,7 +96,7 @@ Add this module to your dependecy.yml file
 h3. Controllers
 
 There are two annotation for forcing the communication with a Reverse-Proxy server:
-* *@SwitchScheme* is strictly for _Methods_ and has two optional values:
+* *@SwitchScheme* is strictly for _Actions_ and has two optional values:
 ** type = SchemeType.HTTP (default value) or SchemeType.HTTPS, for using either HTTP or HTTPS protocol.
 ** keepUrl = true or false (default value), for storing the ReferredUrl into a cookie.
 ** <pre><code>
@@ -116,7 +116,7 @@ There are two annotation for forcing the communication with a Reverse-Proxy serv
         }
     </code></pre>
 
-* *@GlobalSwitchScheme* is strictly for _Classes_ and has one optional value:
+* *@GlobalSwitchScheme* is strictly for _Controllers_ and has one optional value:
 ** type = SchemeType.HTTP (default value) or SchemeType.HTTPS, for using either HTTP or HTTPS protocol.
 ** <pre><code>
         @GlobalSwitchScheme
@@ -183,12 +183,14 @@ h3. @Interceptor
 If you are going to use _interceptors_ it is suggested to decouple the _controller part_ from the _interceptor part_
 and annotate the Interceptor Class with @Interceptor, so that when the plugin enhances the controllers, skips the _interceptors_
 
-See SecureController and SecureInterceptor for clarification
+See SecureController and SecureInterceptor for clarification, both of them included in this module.
 
 h3. Invoking Actions
 
-An Action shall not be invoking by Controller.action()
-An Action is considered to be public static void.......
+An Action from another Action shall NOT be INVOKED like a regular Java call, i.e., Controller.action(),
+if you do this way, Play built-in server won't communicate with the Reverse-Proxy, it will communicate with itself and will change the port to the corresponding scheme (HTTP or HTTPS).
+
+Remember an *Action* must be *public static void*
 
 h4. Invoking an _Action_ from _another Action_ of the _same Controller_
 
@@ -233,16 +235,26 @@ and does the redirection according to the URI Pattern (in this example: /action)
 
 h2. Secure
 
-Do NOT use the Secure module bundled with Play, Instead use SecureController and SecureInterceptor and implement your own
+Do NOT use the *Secure* module bundled with Play, Instead use SecureController and SecureInterceptor and implement your own
 SecureController.Security for Authentication/Authorization.
 
 See demo app for clarification.
 
+h2. Tests
+
+This module has been tested with Play built-in server as standalone in conjunction with Nginx, Apache and Lighttp.
+
+h2. JEE App Container
+
+I tested the module with Jetty-1.6.24 and, unfortunately, throws an exception...
+
 h2. Sample application
 
-A sample demo is part of the distribution
+A sample demo is part of the distribution.
 
-Process as follows in order to run them.
+There's also a example for configuring Nginx as Reverse-Proxy server.
+
+Process as follows in order to run them...
 
 h2. Credits
 
