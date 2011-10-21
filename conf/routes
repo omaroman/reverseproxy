@@ -1,0 +1,13 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:urlredirector
+#
+# ~~~~
+
+GET     /?                      Module.index
+
+# Secure routes
+GET	    /login                      			reverseproxy.secure.SecureController.login
+POST    /login                                  reverseproxy.secure.SecureController.authenticate
+GET     /logout                                 reverseproxy.secure.SecureController.logout

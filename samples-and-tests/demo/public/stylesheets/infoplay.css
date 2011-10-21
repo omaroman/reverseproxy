@@ -1,0 +1,86 @@
+/* 
+    Document   : infoplay
+    Created on : 5 févr. 2010, 18:50:17
+    Author     : le roux
+ 
+*/
+
+body {
+   /*background-color: #444444;*/
+   /*color: white;*/
+    color: black;
+   font-family:"Helvetica Neue",Helvetica,Arial,Sans-Serif;
+}
+
+.panel {
+    background-color: white;
+    color:black;
+    width: 650px;
+    margin-left: 250px;
+    margin-right: auto;
+    padding: 10px 10px 10px 10px;
+}
+
+.table {
+    /*background: #E0FFB8;*/
+    background: #EFF2F8;
+    margin-left:  auto;
+    margin-right: auto;
+    width: 650px;
+    padding : 0px 0px 0px 0px;
+    border-spacing: 0;
+}
+
+.title {
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.bloc {
+    height: 250px;
+    overflow: auto;
+    background-color:  #f0f7da;
+
+}
+.lib {
+    font-size: 13px;
+    font-weight: bold;
+    /*border:  #94DA3A solid 1px;*/
+    border:  #778fbd solid 1px;
+    padding : 2px 2px 2px 2px;
+    margin: 0 0 0 0;
+}
+
+.info {
+    font-size: 13px;
+    /*border:  #94DA3A solid 1px;*/
+    border:  #778fbd solid 1px;
+    padding : 2px 2px 2px 2px;
+    margin: 0px 0px 0px 0px;
+}
+
+.head {
+    font-size: 50px;
+    font-style: italic;
+    font-weight: bold;
+    padding-left: 300px;
+}
+
+.menu {
+    padding-left: 250px;
+}
+.menuitem {
+    font-size: 20px;
+    /*color: white;*/
+    color: black;
+    padding-right: 40px;
+    text-decoration: none;
+}
+a:hover, a:link, a:visited {
+    font-size: 20px;
+    /*color: white;*/
+    /*color: #EFF2F8;*/
+    color: #778fbd;
+    text-decoration: none;
+}

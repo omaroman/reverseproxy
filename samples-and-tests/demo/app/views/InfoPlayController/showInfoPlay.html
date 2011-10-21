@@ -1,0 +1,291 @@
+#{extends 'layouts/baseinfoplay.html' /}
+<table class="menu">
+    <tr>
+        <td class="menuitem">
+            <a href="#soft">&{'menuapplication'}</a>
+        </td>
+        <td class="menuitem">
+            <a href="#play">&{'menuplay'}</a>
+        </td>
+        <td class="menuitem">
+            <a href="#java">&{'menujava'}</a>
+        </td>
+        <td class="menuitem">
+            <a href="#os">&{'menuos'}</a>
+        </td>
+        <td class="menuitem">
+            <a href="@{ApplicationController.secureIndex}">SecureIndex</a>
+        </td>
+        <td class="menuitem">
+            <a href="@{ApplicationController.insecureIndex}">InsecureIndex</a>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">
+    var lang = [
+        #{list items:playconf.softlangs, as:'lang'}
+        '${lang}'${lang_isLast ? '' : ','}
+        #{/list}
+    ];
+</script>
+<br>
+<a name="soft"/>
+<div class="panel">
+    <div id="softwareinfo" class="title">
+        &{'softwareinfo'}
+    </div>
+<div id="softwareinfotable">
+    <table class="table">
+    <tr>
+        <td class="lib">
+        &{'softwarename'}
+        </td>
+        <td class="info">
+        ${playconf.softname}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'softwarerun'}
+        </td>
+        <td class="info">
+            ${playconf.softrun}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'softwarerun'}
+        </td>
+        <td class="info">
+            ${playconf.softdate.since()}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'softwarepath'}
+        </td>
+        <td class="info">
+        ${play.applicationPath}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'softwarepathtmp'}
+        </td>
+        <td class="info">
+        ${play.tmpDir}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'softwarepathtmp'}
+        </td>
+        <td class="info">
+        ${play.routes}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'softwareconf'}
+        </td>
+        <td class="info">
+          ${play.conf}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'softwarelangs'}
+        </td>
+        <td class="info" style="height: 50px">
+            <ul>
+        #{list items:playconf.softlangs, as:'lang'}
+        <li>${lang}</li>
+        #{/list}
+            </ul>
+        </td>
+    </tr>
+</table>
+</div>
+</div>
+<a name="play"/>
+<br>
+<div class="panel">
+<div id="playinfo" class="title">
+&{'playinfo'}
+</div>
+<div id="playinfotable">
+    <table class="table">
+    <tr>
+        <td class="lib">
+        &{'playversion'}
+        </td>
+        <td class="info">
+        ${play.version}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'playmode'}
+        </td>
+        <td class="info">
+        ${play.mode}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'playid'}
+        </td>
+        <td class="info">
+            #{if play.id == null || play.id == ""}
+                &{'notdefined'}
+            #{/if}
+            #{else}
+                ${play.id}
+            #{/else}
+        </td>
+    </tr>
+</table>
+</div>
+</div>
+<a name="java"/>
+<br>
+<div class="panel">
+<div id="javainfo" class="title">
+&{'javainfo'}
+</div>
+    <table class="table">
+    <tr>
+        <td class="lib">
+        &{'javavendor'}
+        </td>
+        <td class="info">
+        ${javainfo.javavendor}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'javaversion'}
+        </td>
+        <td class="info">
+        ${javainfo.javaversion}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'javahome'}
+        </td>
+        <td class="info">
+        ${javainfo.javahome}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'javalibpath'}
+        </td>
+        <td class="info">
+            <div class="bloc">
+            <ul>
+        #{list items:javainfo.javalibpath, as:'path'}
+        <li>${path}</li>
+        #{/list}
+            </ul>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'javaclasspath'}
+        </td>
+        <td class="info">
+            <div class="bloc">
+            <ul>
+        #{list items:javainfo.javaclasspath, as:'path'}
+        <li>${path}</li>
+        #{/list}
+            </ul>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'vmvendor'}
+        </td>
+        <td class="info">
+        ${javainfo.vmvendor}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'vmversion'}
+        </td>
+        <td class="info">
+        ${javainfo.vmversion}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'vmmax'}
+        </td>
+        <td class="info">
+        ${javainfo.vmmax}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'vmfree'}
+        </td>
+        <td class="info">
+        ${javainfo.vmfree}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'vmtotal'}
+        </td>
+        <td class="info">
+        ${javainfo.vmtotal}
+        </td>
+    </tr>
+</table>
+</div>
+<a name="os"/>
+<br>
+<div class="panel">
+<div id="javainfo" class="title">
+&{'osinfo'}
+</div>
+    <table class="table">
+    <tr>
+        <td class="lib">
+        &{'osname'}
+        </td>
+        <td class="info">
+        ${javainfo.osname}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'osversion'}
+        </td>
+        <td class="info">
+        ${javainfo.osversion}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'osarch'}
+        </td>
+        <td class="info">
+        ${javainfo.osarch}
+        </td>
+    </tr>
+    <tr>
+        <td class="lib">
+        &{'processors'}
+        </td>
+        <td class="info">
+        ${javainfo.processors}
+        </td>
+    </tr>
+</table>
+</div>
