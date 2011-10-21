@@ -2,6 +2,8 @@ h1. ReverseProxy module for Play!
 
 h2. What is ReverseProxy?
 
+This module was developed because it's very common, in production mode, to use a Reverse-Proxy server in front of Play built-in server.
+
 ReverseProxy enables the communication between *Play built-in server* and a *Reverse-Proxy server* either via HTTP and HTTPS schemes,
 e.g., Nginx, Apache, Lighttpd.
 
@@ -88,6 +90,11 @@ The values above are the default values.
 *You can generate self signed certificates using Java Keytool:*
 
 bc. keytool -genkey -keyalg RSA -alias selfsigned -keystore certificate.jks -storepass secret -validity 360 -keysize 1024
+
+h3. Self Signed Certificates Warning
+
+In case you don't know, when you use a Self Signed Certificate, the Web Browsers always warns about it. If you plan to use your app
+in a _Production Environment_, then you should buy a _certificate_ from a Certificate Authority like VeriSign, Thawte, Geotrust, GoDaddy, Comodo.
 
 h2. Usage
 
@@ -266,11 +273,11 @@ See demo app for clarification.
 
 h2. Tests
 
-This module has been tested with Play built-in server as standalone in conjunction with Nginx, Apache and Lighttp.
+This module has been tested with Play built-in server as standalone in conjunction with Nginx and Apache.
 
 h2. JEE App Container
 
-I tested the module with Jetty-1.6.24 and, unfortunately, throws an exception...
+It has been tested, partially, with Jetty-1.6.26...
 
 h2. Sample application
 
@@ -279,6 +286,16 @@ A sample demo is part of the distribution.
 There's also a example for configuring Nginx as Reverse-Proxy server.
 
 Process as follows in order to run them...
+
+h2. TODO
+
+* A script for overwrite the layout and css of ReverseProxy.Secure
+* A script for copying all the static content from other modules into the main app
+
+h2. Testing Contributions
+
+If you test this module with another Reverse-Proxy server (e.g., Lighttp) or with another JEE Container, I would really appreciate if publish the results.
+Thanks ahead of time.
 
 h2. Credits
 
