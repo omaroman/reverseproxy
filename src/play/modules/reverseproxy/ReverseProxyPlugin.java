@@ -27,9 +27,10 @@ public class ReverseProxyPlugin extends PlayPlugin {
         Logger.info("Yeeha, ReverseProxyController module loaded");
 
         if (!ReverseProxyUtility.Config.isReverseProxyEnabled()) {
-            String error = "===== ReverseProxy is declared, but isn't enable. Check your application.conf =====";
-            Logger.fatal(error);
-            throw new ConfigurationException(error);
+            String error = "===== WARNING: ReverseProxy is declared, but isn't enable. =====";
+//            Logger.fatal(error);
+//            throw new ConfigurationException(error);
+            Logger.warn(error);
         } else if (ReverseProxyUtility.Config.getReverseProxyHttpAddress() == null) {
             String error = "===== ReverseProxy is declared and enable, but don't have a address specified. Check your application.conf =====";
             Logger.fatal(error);
