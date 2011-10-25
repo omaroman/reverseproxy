@@ -8,6 +8,7 @@ package play.modules.reverseproxy;
 import net.parnassoft.playutilities.ControllerUtility;
 import net.parnassoft.playutilities.UrlUtility;
 import play.Logger;
+import play.Play;
 import play.modules.reverseproxy.annotations.GlobalSwitchScheme;
 import play.modules.reverseproxy.annotations.SchemeType;
 import play.modules.reverseproxy.annotations.SwitchScheme;
@@ -16,9 +17,9 @@ import play.mvc.Http;
 public class ReverseProxy {
 
     public static void initSwitchScheme() {
-        if (!ReverseProxyUtility.Config.isReverseProxyEnabled()) {
-            return;
-        }
+//        if (!ReverseProxyUtility.Config.isReverseProxyEnabled()) {
+//            return;
+//        }
 
         // Check if action it's annotated with @SwitchScheme
         SchemeType schemeType;
@@ -110,7 +111,11 @@ public class ReverseProxy {
     private static void hackRequestForSwitchingSecureScheme() {
         Http.Request request = Http.Request.current();
         request.secure = true;
-        request.port = ReverseProxyUtility.Config.getReverseProxyHttpsPort();
+        if (ReverseProxyUtility.Config.isReverseProxyEnabled()) {
+            request.port = ReverseProxyUtility.Config.getReverseProxyHttpsPort();
+        } else {
+            request.port = Integer.parseInt(Play.configuration.getProperty("https.port"));
+        }
     }
 
     /**
@@ -119,6 +124,10 @@ public class ReverseProxy {
     private static void hackRequestForSwitchingUnsecureScheme() {
         Http.Request request = Http.Request.current();
         request.secure = false;
-        request.port = ReverseProxyUtility.Config.getReverseProxyHttpPort();
+        if (ReverseProxyUtility.Config.isReverseProxyEnabled()) {
+            request.port = ReverseProxyUtility.Config.getReverseProxyHttpPort();
+        } else {
+            request.port = Integer.parseInt(Play.configuration.getProperty("http.port"));
+        }
     }
 }
