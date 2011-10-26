@@ -317,7 +317,11 @@ The following classes have been annotated as @Deprecated
 * play.modules.reverseproxy.ReverseProxyEnhancer
 * controllers.reverseproxy.ReverseProxyInterceptor
 
-They are not used any more, but remains in the source code as reference/example of Enhancer and Interceptor, respectively.
+They are not used any more, but they remain in the source code as reference/example of Enhancer and Interceptor, respectively.
+
+h2. Play-Utilities
+
+This module uses a small API: "play-utilities":https://github.com/omaroman/play-utilities
 
 h2. TODO
 
