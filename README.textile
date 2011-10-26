@@ -310,6 +310,15 @@ There's also a example for configuring Nginx as Reverse-Proxy server.
 
 Process as follows in order to run them...
 
+h2. Deprecated classes
+
+The following classes have been annotated as @Deprecated
+
+* play.modules.reverseproxy.ReverseProxyEnhancer
+* controllers.reverseproxy.ReverseProxyInterceptor
+
+They are not used any more, but remains in the source code as reference/example of Enhancer and Interceptor, respectively.
+
 h2. TODO
 
 * A script for overwrite the layout and css of ReverseProxy.Secure
