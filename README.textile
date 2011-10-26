@@ -43,7 +43,7 @@ https.port=9443
 
 h2. Disabling ReverseProxy module
 
-If you wish or have to disable this module by any reason without removing it from the dependencies, just set configure the following property in you application.conf file:
+If you wish or have to disable this module by any reason without removing it from the dependencies, just set the following property in you application.conf file:
 
 bc. reverse_proxy.enable=false
 
