@@ -24,22 +24,31 @@ public class ReverseProxyPlugin extends PlayPlugin {
 
     @Override
     public void onLoad() {
-        Logger.info("Yeeha, ReverseProxyController module loaded");
+//        Logger.info("Yeeha, ReverseProxyController module loaded");
 
-        if (!ReverseProxyUtility.Config.isReverseProxyEnabled()) {
-            String error = "===== WARNING: ReverseProxy is declared, but isn't enable. =====";
+        boolean reverseProxyEnabled = ReverseProxyUtility.Config.isReverseProxyEnabled();
+        String httpPort = Play.configuration.getProperty("http.port");
+        String httpsPort = Play.configuration.getProperty("https.port");
+
+        if (httpPort == null && httpsPort != null) {
+            String error = "===== https.port property is configured, but http.port property is not configured. Check your application.conf =====";
+            throw new ConfigurationException(error);
+        } else if (!reverseProxyEnabled) {
+            String error = "===== WARNING: ReverseProxy is declared, but is not enabled. =====";
             Logger.warn(error);
-            if (Play.configuration.getProperty("https.port") == null) {
-                error = "===== ReverseProxy is not enable and built-in https port is not configured. Check your application.conf =====";
-                Logger.fatal(error);
-                throw new ConfigurationException(error);
+            if (httpsPort == null) {
+                error = "===== ReverseProxy is not enabled and https.port property is not configured, therefore, only built-in sever HTTP port will be used. Check your application.conf =====";
+                Logger.warn(error);
             }
+        } else if (reverseProxyEnabled && httpsPort == null) {
+            String error = "===== ReverseProxy is enabled, but https.port property is not configured. Check your application.conf =====";
+            throw new ConfigurationException(error);
         } else if (ReverseProxyUtility.Config.getReverseProxyHttpAddress() == null) {
-            String error = "===== ReverseProxy is declared and enable, but don't have a address specified. Check your application.conf =====";
+            String error = "===== ReverseProxy is declared and enabled, but doesn't have an address configured. Check your application.conf =====";
             Logger.fatal(error);
             throw new ConfigurationException(error);
         } else if (ReverseProxyUtility.Config.getReverseProxyHttpPort() == 0 || ReverseProxyUtility.Config.getReverseProxyHttpsPort() == 0) {
-            String error = "===== ReverseProxy is declared and enable, but don't have ports specified. Check your application.conf =====";
+            String error = "===== ReverseProxy is declared and enabled, but doesn't have ports configured. Check your application.conf =====";
             Logger.fatal(error);
             throw new ConfigurationException(error);
         }
@@ -51,10 +60,6 @@ public class ReverseProxyPlugin extends PlayPlugin {
     @Override
     public void enhance(ApplicationClasses.ApplicationClass appClass) throws Exception {
 //        new ReverseProxyEnhancer().enhanceThisClass(appClass);
-    }
-
-    public void onInvocationSuccess() {
-        // TODO: Delete cookie
     }
 
     @Override

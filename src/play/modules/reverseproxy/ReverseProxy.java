@@ -16,10 +16,9 @@ import play.mvc.Http;
 
 public class ReverseProxy {
 
+    private static boolean reverseProxyEnabled = ReverseProxyUtility.Config.isReverseProxyEnabled();
+
     public static void initSwitchScheme() {
-//        if (!ReverseProxyUtility.Config.isReverseProxyEnabled()) {
-//            return;
-//        }
 
         // Check if action it's annotated with @SwitchScheme
         SchemeType schemeType;
@@ -76,6 +75,16 @@ public class ReverseProxy {
      * @param schemeType - Can be UNSPECIFIED, HTTP or HTTPS
      */
     private static void doSwitchScheme(SchemeType schemeType) {
+
+        // If ReverseProxy module is not enabled and https.port property is not configured...
+        // Stop switching process between HTTP and HTTPS
+        String httpsPort = Play.configuration.getProperty("https.port");
+        if (!reverseProxyEnabled && httpsPort == null) {
+            Http.Request.current().secure = false;
+            return;
+        }
+
+        // Continue switching process between HTTP and HTTPS
         switchScheme(schemeType);
     }
 
@@ -109,25 +118,28 @@ public class ReverseProxy {
      * Make the change to SecureController Scheme (HTTPS)
      */
     private static void hackRequestForSwitchingSecureScheme() {
-        Http.Request request = Http.Request.current();
-        request.secure = true;
-        if (ReverseProxyUtility.Config.isReverseProxyEnabled()) {
-            request.port = ReverseProxyUtility.Config.getReverseProxyHttpsPort();
-        } else {
-            request.port = Integer.parseInt(Play.configuration.getProperty("https.port"));
-        }
+        Http.Request.current().secure = true;
+        setRequestPort();
     }
 
     /**
      * Make the change to Non-secure Scheme (HTTP)
      */
     private static void hackRequestForSwitchingUnsecureScheme() {
+        Http.Request.current().secure = false;
+        setRequestPort();
+    }
+
+    private static void setRequestPort() {
+        String httpsPort = Play.configuration.getProperty("https.port");
         Http.Request request = Http.Request.current();
-        request.secure = false;
-        if (ReverseProxyUtility.Config.isReverseProxyEnabled()) {
+
+        if (reverseProxyEnabled && request.secure) {
+            request.port = ReverseProxyUtility.Config.getReverseProxyHttpsPort();
+        } else if (reverseProxyEnabled && !request.secure) {
             request.port = ReverseProxyUtility.Config.getReverseProxyHttpPort();
-        } else {
-            request.port = Integer.parseInt(Play.configuration.getProperty("http.port"));
+        } else if (!reverseProxyEnabled && request.secure &&  httpsPort != null) {
+           request.port = Integer.parseInt(httpsPort);
         }
     }
 }
