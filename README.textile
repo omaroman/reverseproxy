@@ -2,10 +2,10 @@ h1. ReverseProxy module for Play!
 
 h2. What is ReverseProxy?
 
-This module was developed because it's very common, in production mode, to use a Reverse-Proxy server in front of Play built-in server.
-
-ReverseProxy enables the communication between *Play built-in server* and a *Reverse-Proxy server* either via HTTP and HTTPS schemes,
-e.g., Nginx, Apache, Lighttpd.
+ReverseProxy allows developers to configure web applications to
+automatically switch between the _HTTP_ and _HTTPS_ protocols per page
+when used behind a front end Reverse-Proxy server such as Apache, Nginx or Lighttpd.
+Configuration is done in Controllers using annotations.
 
 h2. Requirements
 
@@ -284,10 +284,23 @@ and does the redirection according to the URI Pattern (in this example: /action)
 
 h2. Secure
 
-Do NOT use the *Secure* module bundled with Play, Instead use SecureController and SecureInterceptor included with this module and implement your own
+Do NOT use the *Secure* module bundled with Play, instead use SecureController (and its inner class Security) and SecureInterceptor included with this module and implement your own
 SecureController.Security for Authentication/Authorization.
 
-See demo app for clarification.
+See demo-with-secure app for clarification.
+
+h2. Protect
+
+For a better Authentication/Authorization mechanism, use ProtectController (and its inner class Safety) included with this module, which integrates with
+*Deadbolt* module, and implement your own ProtectController.Safety.
+
+See demo-with-deadbolt app for clarification.
+
+h2. Prohibited
+
+There's a ProhibitedController controller, included with this module, intended to render a forbidden view when a _user_ doesn't have permission to access a certain area.
+
+See demo-with-deadbolt app for clarification.
 
 h2. Reverse-Proxy Server: static content
 
@@ -304,11 +317,10 @@ It has been tested, partially, with Jetty-1.6.26...
 
 h2. Sample application
 
-A sample demo is part of the distribution.
+Two sample demos are part of the distribution.
+Don't forget to run _play deps_ so that it resolves dependencies.
 
 There's also a example for configuring Nginx as Reverse-Proxy server.
-
-Process as follows in order to run them...
 
 h2. Deprecated classes
 
@@ -325,7 +337,8 @@ This module uses a small API: "play-utilities":https://github.com/omaroman/play-
 
 h2. TODO
 
-* A script for overwrite the layout and css of ReverseProxy.Secure
+* A script for overwrite the layout and css of ReverseProxy.secure.Secure
+* A script for overwrite the layout and css of ReverseProxy.deadbolt.Protect
 * A script for copying all the static content from other modules into the main app
 
 h2. Testing Contributions
