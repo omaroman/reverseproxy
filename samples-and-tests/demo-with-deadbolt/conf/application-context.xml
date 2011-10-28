@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springsource.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+
+    <!-- Authorization Roles for Resource -->
+    <bean id="accessList" class="config.DynamicAuthorization" scope="singleton">
+        <property name="resourceAuthorizations">
+            <map>
+                <entry key="controllers_InfoPlayController_do"><!-- Resource -->
+                    <list><!-- List of Allowed Roles-->
+                        <ref bean="GOD" />
+                    </list>
+                </entry>
+                <entry key="controllers_ApplicationController_secureIndex"><!-- Resource -->
+                    <list><!-- List of Allowed Roles-->
+                        <ref bean="DEMIGOD" />
+                    </list>
+                </entry>
+                <entry key="controllers_ApplicationController_insecureIndex"><!-- Resource -->
+                    <list><!-- List of Allowed Roles-->
+                        <ref bean="MORTAL" />
+                    </list>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <!-- ROLES-->
+    <bean id="GOD" class="models.Role" scope="singleton">
+        <property name="name" value="GOD"/>
+    </bean>
+    <bean id="DEMIGOD" class="models.Role" scope="singleton">
+        <property name="name" value="DEMIGOD"/>
+    </bean>
+    <bean id="MORTAL" class="models.Role" scope="singleton">
+        <property name="name" value="MORTAL"/>
+    </bean>
+
+    
+
+</beans>

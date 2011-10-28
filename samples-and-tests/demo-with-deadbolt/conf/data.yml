@@ -1,0 +1,29 @@
+Role(GOD):
+  name: GOD
+  description: "Almigthy user"
+
+Role(DEMIGOD):
+  name: DEMIGOD
+  description: "Almost omnipotent user"
+
+Role(MORTAL):
+  name: MORTAL
+  description: "Normal user"
+
+User(superadmin):
+  username: superadmin
+  email: superadmin@mail.com
+  password: supersecret
+  role: GOD
+
+User(admin):
+  username: admin
+  email: admin@mail.com
+  password: secret
+  role: DEMIGOD
+
+User(guest):
+  username: guest
+  email: guest@mail.com
+  password: guest
+  role: MORTAL

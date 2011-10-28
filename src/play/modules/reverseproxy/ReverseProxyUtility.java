@@ -29,10 +29,10 @@ public class ReverseProxyUtility {
     }
 
     public static void redirectToReferredUrl() throws Throwable {
-        String referredUrl = readCookie();
+        String referredUrl = readReferredUrlCookie();
         String fullReferredUrl = String.format("%s://%s%s", RequestUtility.getScheme(), getBase(), referredUrl);
         Logger.debug("%s: %s", COOKIE_NAME, fullReferredUrl);
-        removeCookie();
+        deleteReferredUrlCookie();
         UrlUtility.redirectToUrl(fullReferredUrl);
     }
 
@@ -41,14 +41,14 @@ public class ReverseProxyUtility {
         UrlUtility.redirectToUrl(url);
     }
 
-    public static void writeCookie() {
+    public static void createReferredUrlCookie() {
         Http.Request request = Http.Request.current();
         String url = "GET".equals(request.method) ? request.url : "/";
         String urlEncrypted = Crypto.encryptAES(url);
-        CookieUtility.writeCookie(COOKIE_NAME, urlEncrypted);
+        CookieUtility.createCookie(COOKIE_NAME, urlEncrypted);
     }
 
-    public static String readCookie() {
+    public static String readReferredUrlCookie() {
         String urlEncrypted = CookieUtility.readCookie(COOKIE_NAME);
         if (urlEncrypted != null) {
             return Crypto.decryptAES(urlEncrypted);
@@ -56,8 +56,8 @@ public class ReverseProxyUtility {
         return "/"; // Index
     }
 
-    public static void removeCookie() {
-        CookieUtility.removeCookie(COOKIE_NAME);
+    public static void deleteReferredUrlCookie() {
+        CookieUtility.deleteCookie(COOKIE_NAME);
     }
 
     // -----

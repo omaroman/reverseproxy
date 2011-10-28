@@ -26,10 +26,9 @@ public class SecureInterceptor extends Controller {
         Http.Request request = Http.Request.current();
 
         if(!session.contains("username")) {
-            flash.put("url", "GET".equals(request.method) ? request.url : "/"); // seems a good default
-            //render("@reverseproxy.SecureController.login"); // renders views/SecureController/login.html
-            //SecureController.login(); <---- DO NOT Invoke this way
             Logger.debug("NEEDS SESSIONS...");
+            flash.put("url", "GET".equals(request.method) ? request.url : "/"); // seems a good default
+            //ProtectController.login(); <---- DO NOT Invoke this way
             UrlUtility.redirectByReverseRouting("reverseproxy.secure.SecureController.login");
         }
         // Checks

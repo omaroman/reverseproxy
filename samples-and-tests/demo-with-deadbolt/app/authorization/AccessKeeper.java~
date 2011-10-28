@@ -1,0 +1,70 @@
+package authorization;
+
+import controllers.Secure;
+import controllers.Sessions;
+import controllers.admin.AdminSecure;
+import controllers.deadbolt.DeadboltHandler;
+import controllers.deadbolt.ExternalizedRestrictionsAccessor;
+import controllers.deadbolt.RestrictedResourcesHandler;
+import exceptions.UnfoundException;
+import utilities.CookieUtility;
+import models.User;
+import models.deadbolt.ExternalizedRestrictions;
+import models.deadbolt.RoleHolder;
+import play.mvc.Controller;
+import play.mvc.Util;
+
+public class AccessKeeper extends Controller implements DeadboltHandler {
+
+    @Util
+    private static void storeReferrerAction() {
+        CookieUtility.writeCookie(request, response);
+    }
+
+	public void beforeRoleCheck() {
+        if (!Sessions.isConnected()) {
+            try {
+                if (!session.contains("user_email") || !session.contains("username")) {
+//                    storeReferrerAction();
+                    if(request.action.startsWith("admin")) {
+                        AdminSecure.login();
+                    } else {
+                        Secure.login();
+                        // TODO: Store ticket(UUID) in Cache within Secure.login() method
+                    }
+                }
+            } catch (Throwable t) {
+                // handle this in an app-specific way
+            }
+        }
+        // TODO: Renew UUID in Cache for session
+    }
+
+    public RoleHolder getRoleHolder() {
+//        String username = Secure.Security.connected();
+        String username = Sessions.connected();
+        User user = null;
+        try {
+            user = User.findByUsername(username);
+        } catch (UnfoundException e) {
+//            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public void onAccessFailure(String controllerClassName) {
+        forbidden();
+    }
+
+    public ExternalizedRestrictionsAccessor getExternalizedRestrictionsAccessor() {
+        return new ExternalizedRestrictionsAccessor() {
+            public ExternalizedRestrictions getExternalizedRestrictions(String name) {
+                return null;
+            }
+        };
+    }
+
+	public RestrictedResourcesHandler getRestrictedResourcesHandler() {
+		return new DynamicAccess();
+	}
+}

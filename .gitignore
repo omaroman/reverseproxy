@@ -1,0 +1,12 @@
+*.iml
+/dist/
+*.class
+*.swp
+*.log
+/tmp/*
+/modules/*
+/samples-and-tests/demo-with-secure/modules/*
+/samples-and-tests/demo-with-secure/tmp/*
+/samples-and-tests/demo-with-deadbolt/modules/*
+/samples-and-tests/demo-with-deadbolt/tmp/*
+/.idea

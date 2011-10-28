@@ -1,0 +1,16 @@
+# Application dependencies
+
+require:
+    - play
+    - play -> deadbolt 1.4.2
+    - play -> associations 1.0.1
+    - play -> spring 1.0.2
+
+    - reverseproxy -> reverseproxy
+
+repositories:
+    - test reverseproxy module:
+        type:       local
+        artifact:   ${application.path}/../../../[module]
+        contains:
+            - reverseproxy -> *

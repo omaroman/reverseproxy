@@ -18,11 +18,16 @@ public class ReverseProxy {
 
     private static boolean reverseProxyEnabled = ReverseProxyUtility.Config.isReverseProxyEnabled();
 
+    /**
+     * This method gets the annotation and its values of @SwitchScheme or @GlobalSwitchScheme and continues the logic flow
+     */
     public static void initSwitchScheme() {
+//        Logger.debug("SCOPE -> initSwitchScheme");
 
         // Check if action it's annotated with @SwitchScheme
         SchemeType schemeType;
         boolean keepUrl = false;
+
         SwitchScheme switchScheme = ControllerUtility.getActionAnnotation(SwitchScheme.class);
         if (switchScheme != null) {
             // Action it's annotated with @SwitchScheme
@@ -39,7 +44,7 @@ public class ReverseProxy {
             }
         }
 
-//        Logger.debug("SchemeType:::::::::::::::%s", schemeType);
+//        Logger.debug("SchemeType:::%s, KeepUrl:::%b", schemeType, keepUrl);
         switchOver(schemeType, keepUrl);
     }
 
@@ -50,23 +55,18 @@ public class ReverseProxy {
      * @param keepActionUrl - A boolean that allow store or don't the referred URL of Action
      */
     private static void switchOver(SchemeType schemeType, boolean keepActionUrl) {
+//        Logger.debug("SCOPE -> switchOver");
         if (schemeType == SchemeType.UNSPECIFIED) {
             Logger.warn("The action have a UNSPECIFIED SchemeType, by default will pass with the last SchemeType used on the flow");
             return;
         }
 
-        if (keepActionUrl) {    // With cookie
-            createCookie();     // Store referred url into a cookie
+        if (keepActionUrl) {
+            // creates a Cookie containing the referred url of the specified action
+            ReverseProxyUtility.createReferredUrlCookie();
         }
-        doSwitchScheme(schemeType);
-    }
 
-    /**
-     * Allow the creation of a Cookie that will contains the url of the specified action
-     * this will work to ExternalSwitchScheme and SwitchScheme
-     */
-    private static void createCookie() {
-        ReverseProxyUtility.writeCookie();
+        doSwitchScheme(schemeType);
     }
 
     /**
@@ -75,8 +75,9 @@ public class ReverseProxy {
      * @param schemeType - Can be UNSPECIFIED, HTTP or HTTPS
      */
     private static void doSwitchScheme(SchemeType schemeType) {
+//        Logger.debug("SCOPE -> doSwitchScheme");
 
-        // If ReverseProxy module is not enabled and https.port property is not configured...
+        // If ReverseProxy module is NOT enabled and https.port property is not configured...
         // Stop switching process between HTTP and HTTPS
         String httpsPort = Play.configuration.getProperty("https.port");
         if (!reverseProxyEnabled && httpsPort == null) {
@@ -89,23 +90,23 @@ public class ReverseProxy {
     }
 
     private static void switchScheme(SchemeType schemeType) throws IllegalArgumentException {
+//        Logger.debug("SCOPE -> switchScheme");
         Http.Request request = Http.Request.current();
-
         switch (schemeType) {
             case HTTP :
-                if (request.secure) {   // SecureController AND does not require HTTPS
-                    hackRequestForSwitchingUnsecureScheme();
+                if (request.secure) {   // Secure request AND does not require HTTPS
+                    hackRequestForSwitchingInsecureScheme();
                     UrlUtility.redirectToUriPattern(request.path);
-                } else {    // Unsecure AND does NOT require HTTPS
+                } else {    // Unsecure request AND does NOT require HTTPS
                     // DO NOTHING, continue using http
-                    hackRequestForSwitchingUnsecureScheme();
+                    hackRequestForSwitchingInsecureScheme();
                     return;
                 }
             case HTTPS:
-                if (!request.secure) {  // Unsecure AND requires HTTPS
+                if (!request.secure) {  // Unsecure request AND requires HTTPS
                     hackRequestForSwitchingSecureScheme();
                     UrlUtility.redirectToUriPattern(request.path);
-                } else {    // SecureController AND requires HTTPS
+                } else {    // Secure request AND requires HTTPS
                     hackRequestForSwitchingSecureScheme();
                     return;
                 }
@@ -115,22 +116,26 @@ public class ReverseProxy {
     }
 
     /**
-     * Make the change to SecureController Scheme (HTTPS)
+     * Make the change to Secure request Scheme (HTTPS)
      */
     private static void hackRequestForSwitchingSecureScheme() {
+//        Logger.debug("SCOPE -> hackRequestForSwitchingSecureScheme");
         Http.Request.current().secure = true;
-        setRequestPort();
+        hackRequestPort();
     }
 
     /**
-     * Make the change to Non-secure Scheme (HTTP)
+     * Make the change to Insecure request Scheme (HTTP)
      */
-    private static void hackRequestForSwitchingUnsecureScheme() {
+    private static void hackRequestForSwitchingInsecureScheme() {
+//        Logger.debug("SCOPE -> hackRequestForSwitchingInsecureScheme");
         Http.Request.current().secure = false;
-        setRequestPort();
+        hackRequestPort();
     }
 
-    private static void setRequestPort() {
+    private static void hackRequestPort() {
+//        Logger.debug("SCOPE -> hackRequestPort");
+        String httpPort = Play.configuration.getProperty("http.port");
         String httpsPort = Play.configuration.getProperty("https.port");
         Http.Request request = Http.Request.current();
 
@@ -138,8 +143,10 @@ public class ReverseProxy {
             request.port = ReverseProxyUtility.Config.getReverseProxyHttpsPort();
         } else if (reverseProxyEnabled && !request.secure) {
             request.port = ReverseProxyUtility.Config.getReverseProxyHttpPort();
-        } else if (!reverseProxyEnabled && request.secure &&  httpsPort != null) {
+        } else if (!reverseProxyEnabled && request.secure) {
            request.port = Integer.parseInt(httpsPort);
+        } else if (!reverseProxyEnabled && !request.secure) {
+           request.port = Integer.parseInt(httpPort);
         }
     }
 }

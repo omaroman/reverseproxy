@@ -1,0 +1,35 @@
+#{extends 'layouts/main.html' /}
+#{set title:'Home' /}
+
+<div id="outline">
+    <div id="title">
+        <h3>Secure page (HTTP<strong>S</strong>)</h3>
+    </div>
+    <div id="caption">
+        <h1>
+            %{ appname = play.Play.configuration.getProperty("application.name") }%
+            This <em>${appname}</em> Play! Web App is intended for testing <em>&{'testmodule'}</em> module<br />
+        </h1>
+    </div>
+    <div id="text">
+        <p>
+            This page is supposed to have <strong>sensitive data</strong> and for that reason <strong>is secure</strong>.
+        </p>
+        <p>
+            Try to <span>insecure index</span> and the page shall switch to <em>insecure scheme</em>.<br />
+            <a href="@{ApplicationController.insecureIndex}">insecure index</a>
+        </p>
+        #{ifnot session.get("username").equals("admin")}
+            <p>
+                Try to <span>login</span> and the page still shall be in <em>secure scheme</em>.<br />
+                <a href="@{reverseproxy.deadbolt.ProtectController.signin()}">login</a>
+            </p>
+        #{/ifnot}
+        <p>
+            Try InfoPlay, the <em>scheme</em> still shall be <em>secure</em>.
+            <a href="@{InfoPlayController.showInfoPlay()}">InfoPlay</a>
+        </p>
+    </div>
+
+</div>
+

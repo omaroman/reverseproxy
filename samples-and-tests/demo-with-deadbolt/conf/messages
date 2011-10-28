@@ -1,0 +1,65 @@
+# You can specialize this file for each language.
+# For example, for French create a messages.fr file
+#
+
+testmodule=reverseproxy
+
+# SECURE MESSAGES
+
+secure.title=
+secure.username=Username:
+secure.password=Password:
+secure.remember=Remember me
+secure.signin=Sign in
+secure.error=Oops, unknown username or password.
+secure.logout=You have been logged out.
+
+# PROHIBITED MESSAGES
+prohibited.title=Prohibited
+prohibited.error=Sorry, you don't have permission to access this area
+prohibited.go_back=Go back
+prohibited.go_home=Go home
+
+# INFOPLAY MESSAGES
+
+title=Play! Informations
+playinfo=Play! Informations
+playversion=Play! version
+playmode=Mode
+playid=Framework id
+
+javainfo=Java informations
+javaversion=Version
+javavendor=Vendor
+javahome=Home
+javalibpath=Lib path
+
+vmversion=JVM version
+vmvendor=JVM vendor
+vmmax=Maximum memory JVM
+vmfree=Free Memory JVM
+vmtotal=Total memory JVM
+
+osinfo=System informations
+osname=Name
+osversion=Version
+osarch=Architecture
+processors=Processer
+
+softwareinfo=Software Informations
+softwarename=Name
+softwarepath=Software path
+softwareconf=Config file
+softwarelangs=Langue
+softwarepathtmp=Temp directory
+softwareroutes=Routes file
+softwarerun=application has started
+softwaretime=MM/dd/yyyy HH:mm
+
+
+menuapplication=Application
+menuplay=Play!
+menujava=Java
+menuos=OS
+
+notdefined=Not defined

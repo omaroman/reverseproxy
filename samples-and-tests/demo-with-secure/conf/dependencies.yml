@@ -1,0 +1,13 @@
+# Application dependencies
+
+require:
+    - play
+
+    - reverseproxy -> reverseproxy
+
+repositories:
+    - test reverseproxy module:
+        type:       local
+        artifact:   ${application.path}/../../../[module]
+        contains:
+            - reverseproxy -> *

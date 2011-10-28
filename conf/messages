@@ -1,5 +1,13 @@
-# Default urlredirector messages
+# Default secure messages
 # You can specialize this file for each language.
 # For exemple, for french create a messages.fr file
 
-#urlredirector.name=urlredirector
+secure.title=
+secure.username=Username:
+secure.email=Email:
+secure.password=Password:
+secure.password_confirmation=Password confirmation:
+secure.remember=Remember me
+secure.signin=Sign in
+secure.error=Oops, unknown username or password.
+secure.logout=You have been logged out.

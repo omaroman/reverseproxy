@@ -89,7 +89,7 @@ public class ReverseProxyInterceptor extends Controller {
      */
     @Util
     private static void createCookie() {
-        ReverseProxyUtility.writeCookie();
+        ReverseProxyUtility.createReferredUrlCookie();
     }
 
     /**
@@ -109,7 +109,7 @@ public class ReverseProxyInterceptor extends Controller {
 
         switch (schemeType) {
             case HTTP :
-                if (request.secure) {   // SecureController AND does not require HTTPS
+                if (request.secure) {   // ProtectController AND does not require HTTPS
                     hackRequestForSwitchingUnsecureScheme();
                     UrlUtility.redirectToUriPattern(request.path);
                 } else {    // Unsecure AND does NOT require HTTPS
@@ -121,7 +121,7 @@ public class ReverseProxyInterceptor extends Controller {
                 if (!request.secure) {  // Unsecure AND requires HTTPS
                     hackRequestForSwitchingSecureScheme();
                     UrlUtility.redirectToUriPattern(request.path);
-                } else {    // SecureController AND requires HTTPS
+                } else {    // ProtectController AND requires HTTPS
                     hackRequestForSwitchingSecureScheme();
                     return;
                 }
@@ -131,7 +131,7 @@ public class ReverseProxyInterceptor extends Controller {
     }
 
     /**
-     * Make the change to SecureController Scheme (HTTPS)
+     * Make the change to Secure Scheme (HTTPS)
      */
     @Util
     private static void hackRequestForSwitchingSecureScheme() {
