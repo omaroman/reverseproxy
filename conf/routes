@@ -16,4 +16,4 @@ GET	    /signin                      			reverseproxy.deadbolt.ProtectController.
 POST    /signin                                 reverseproxy.deadbolt.ProtectController.authenticate
 GET     /signout                                reverseproxy.deadbolt.ProtectController.signout
 
-GET	    /prohibited                   			reverseproxy.ProhibitedController.prohibited
+GET	    /prohibited                   			reverseproxy.deadbolt.ProhibitedController.prohibited

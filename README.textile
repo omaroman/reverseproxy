@@ -212,12 +212,14 @@ See SecureController and SecureInterceptor for clarification, both of them inclu
 
 h3. Invoking Actions
 
-An Action from _another Action_ shall NOT be INVOKED like a regular Java call, i.e., Controller.action(),
-if you do this way, Play built-in server won't communicate with the Reverse-Proxy, it will communicate with itself and will change the port to the corresponding scheme (HTTP or HTTPS).
+An Action from _another Action_ may be INVOKED in one of the following ways:
+* By regular Java call, i.e., Controller.action()
+* By reverse routing, i.e., UrlUtility.redirectByReverseRouting("Controller.action") -> Invoke GET /action Controller.action
+* By render, i.e., render("@action") -> renders views/Controller/action.html
 
 bc. public class ControllerA extends Controller {
     public static void actionOne() {
-        ControllerA.actionTwo();    // Will change the URL -> http://domain:9000/actiontwo
+        ControllerA.actionTwo();
     }
     public static void actionTwo(){
         // Do logic...
@@ -228,7 +230,7 @@ bc. public class ControllerA extends Controller {
 ---
 public class ControllerA extends Controller {
     public static void actionOne() {
-        ControllerA.actionTwo();    // Will change the URL -> http://domain:9443/actiontwo
+        ControllerA.actionTwo();
     }
     -
     // Let's supposed this action uses HTTPS
@@ -245,6 +247,9 @@ h4. Invoking an _Action_ from _another Action_ of the _same Controller_
 
 For invoking an Action from another Action of the same Controller, you must call one of the following methods:
 
+* action()
+* Controller.action()
+* package.Controller.action()
 * render("@action")
 * render("@Controller.action")
 * render("@package.Controller.action")
@@ -260,9 +265,9 @@ bc. public class ControllerA extends Controller {
     }
 }
 
-h4. Invoking an _Action_ from _another Action_ of _different Controller_
+h4. Invoking an _Action_ from _another Action_ of _different Controller_ by *Reverse Routing*
 
-For invoking an Action from another Action of different Controller, you must use its Java Call from conf/routes file
+For invoking an Action from another Action of different Controller, you may use its Java Call from conf/routes file
 
 bc. GET     /actionTwo                            ControllerB.actionTwo
 
@@ -281,6 +286,23 @@ public class ControllerB extends Controller {
 
 Note *UrlUtility.redirectByReverseRouting* method expects a Java Call as argument, which calculates the Reverse Routing,
 and does the redirection according to the URI Pattern (in this example: /action).
+
+h4. Invoking an _Action_ from _another Action_ of _different Controller_ by *Java Call*
+
+For invoking an Action from another Action of different Controller, you may invoke it directly as a regular Java Call
+
+bc. public class ControllerA extends Controller {
+    public static void actionOne() {
+        ControllerB.actionTwo();
+    }
+}
+public class ControllerB extends Controller {
+    public static void actionTwo(){
+        // Do logic...
+        // Invoked from ControllerA.actionOne
+        render()
+    }
+}
 
 h2. Secure
 

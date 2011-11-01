@@ -58,10 +58,11 @@ public class SecureController extends Controller {
             flash.keep("url");
             flash.error("secure.error");
             params.flash();
-//            login();  // <--- DO NOT Invoke this way
+            // <<< DO invoke this way:
+            login();
             //render("@reverseproxy.ProtectController.login"); // renders views/secure/SecureController/login
             // or
-            render("@login"); // renders views/secure/SecureController/login
+            //render("@login"); // renders views/secure/SecureController/login
         }
         // Mark user as connected
         session.put("username", username);
@@ -81,8 +82,10 @@ public class SecureController extends Controller {
         ReverseProxyUtility.deleteReferredUrlCookie();
         Security.invoke("onDisconnected");
         flash.success("secure.logout");
-//        login();  // <--- DO NOT Invoke this way
-        render("@login"); // renders views/secure/SecureController/login
+        // <<< DO invoke this way
+        login();
+        // or
+        // render("@login"); // renders views/secure/SecureController/login
     }
 
     // ~~~ Utils

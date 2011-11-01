@@ -28,8 +28,10 @@ public class SecureInterceptor extends Controller {
         if(!session.contains("username")) {
             Logger.debug("NEEDS SESSIONS...");
             flash.put("url", "GET".equals(request.method) ? request.url : "/"); // seems a good default
-            //ProtectController.login(); <---- DO NOT Invoke this way
-            UrlUtility.redirectByReverseRouting("reverseproxy.secure.SecureController.login");
+            // <<< DO invoke this way:
+            SecureController.login();
+            // or
+            //UrlUtility.redirectByReverseRouting("reverseproxy.secure.SecureController.login");
         }
         // Checks
         Check check = ControllerUtility.getActionAnnotation(Check.class);

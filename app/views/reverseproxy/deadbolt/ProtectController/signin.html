@@ -1,8 +1,14 @@
-#{extends 'reverseproxy/secure/SecureController/layout.html' /}
+#{extends 'reverseproxy/deadbolt/layouts/layout.html' /}
+#{set 'title'}
+    &{'protect.title'}
+#{/set}
+#{set 'moreStyles'}
+    #{stylesheet 'reverseproxy/deadbolt/protect.css' /}
+#{/set}
 
 <div id="login">
 	
-	<h1>&{'secure.title'}</h1>
+	<h1>&{'protect.title'}</h1>
 		
 	#{form @reverseproxy.deadbolt.ProtectController.authenticate()}
 		
@@ -18,19 +24,19 @@
 		#{/if}
 	
 		<p id="username-field">
-			<label for="username">&{'secure.username'}</label>
+			<label for="username">&{'protect.username'}</label>
 			<input type="text" name="username" id="username" value="${flash.username}" />
 		</p>
 		<p id="password-field">
-			<label for="password">&{'secure.password'}</label>
+			<label for="password">&{'protect.password'}</label>
 			<input type="password" name="password" id="password" value="" />
 		</p>
 		<p id="remember-field">
 			<input type="checkbox" name="remember" id="remember" value="true" ${flash.remember ? 'checked="true"' : ''} />
-			<label for="remember">&{'secure.remember'}</label>
+			<label for="remember">&{'protect.remember'}</label>
 		</p>
 		<p id="signin-field">
-			<input type="submit" id="signin" value="&{'secure.signin'}" />
+			<input type="submit" id="signin" value="&{'protect.signin'}" />
 		</p>
 	#{/form}
 </div>

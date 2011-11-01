@@ -6,16 +6,17 @@ testmodule=reverseproxy
 
 # SECURE MESSAGES
 
-secure.title=
-secure.username=Username:
-secure.password=Password:
-secure.remember=Remember me
-secure.signin=Sign in
-secure.error=Oops, unknown username or password.
-secure.logout=You have been logged out.
+protect.title=
+protect.username=Username:
+protect.password=Password:
+protect.remember=Remember me
+protect.signin=Sign in
+protect.error=Oops, unknown username or password.
+protect.logout=You have been logged out.
 
 # PROHIBITED MESSAGES
-prohibited.title=Prohibited
+prohibited.title=Web App Blocked
+prohibited.title_header=Prohibited
 prohibited.error=Sorry, you don't have permission to access this area
 prohibited.go_back=Go back
 prohibited.go_home=Go home

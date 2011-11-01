@@ -1,0 +1,25 @@
+#{extends 'reverseproxy/deadbolt/layouts/layout.html' /}
+#{set 'title'}
+    &{'prohibited.title'}
+#{/set}
+#{set 'moreStyles'}
+    #{stylesheet 'reverseproxy/deadbolt/prohibited.css' /}
+#{/set}
+
+<div id="outline">
+    <img src="@{'public/images/reverseproxy/gradient.jpg'}" alt="" height="304" width="800" border="0" />
+    <div id="title">
+        <h3>&{'prohibited.title_header'}</h3>
+    </div>
+    <div id="caption">
+        <h1>&{'prohibited.error'}</h1>
+        <h4><a href="javascript:history.back()">&{'prohibited.go_back'}</a></h4>
+        <h4><a href="/">&{'prohibited.go_home'}</a></h4>
+    </div>
+    <div id="text">
+        <p id="traffic_light">
+            <img type="image/svg+xml"  alt="Traffic Light: RED" src="@{'/public/images/reverseproxy/traffic_light_red_dan_ge_01.svg'}" width="400px" />
+        </p>
+    </div>
+</div>
+		

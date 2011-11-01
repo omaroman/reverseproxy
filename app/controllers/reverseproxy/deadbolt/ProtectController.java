@@ -54,10 +54,12 @@ public class ProtectController extends Controller {
             flash.keep("url");
             flash.error("secure.error");
             params.flash();
-//            signin();  // <--- DO NOT Invoke this way
+            // <<< DO invoke this way:
+            signin();
+            // or
             //render("@reverseproxy.deadbolt.ProtectController.signin"); // renders views/deadbolt/ProtectController/signin.html
             // or
-            render("@signin"); // renders views/deadbolt/ProtectController/signin
+            //render("@signin"); // renders views/deadbolt/ProtectController/signin
         }
         // Mark user as connected
         session.put("username", username);
@@ -77,8 +79,10 @@ public class ProtectController extends Controller {
         ReverseProxyUtility.deleteReferredUrlCookie();
         Safety.invoke("onDisconnected");
         flash.success("protect.signout");
-//        signin();  // <--- DO NOT Invoke this way
-        render("@signin"); // renders views/deadbolt/ProtectController/signin
+        // <<< DO invoke this way:
+        signin();
+        // or
+        //render("@signin"); // renders views/deadbolt/ProtectController/signin
     }
 
     // ~~~ Utils

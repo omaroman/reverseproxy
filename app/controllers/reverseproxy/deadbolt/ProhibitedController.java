@@ -3,7 +3,7 @@
  * Date: 10/27/11
  * Time: 4:30 PM
  */
-package controllers.reverseproxy;
+package controllers.reverseproxy.deadbolt;
 
 import play.mvc.Controller;
 import play.mvc.Http;

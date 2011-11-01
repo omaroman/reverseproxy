@@ -1,6 +1,8 @@
 package authorization;
 
 import controllers.deadbolt.*;
+import controllers.reverseproxy.deadbolt.ProhibitedController;
+import controllers.reverseproxy.deadbolt.ProtectController;
 import models.User;
 import models.deadbolt.ExternalizedRestrictions;
 import models.deadbolt.RoleHolder;
@@ -52,8 +54,15 @@ public class AccessKeeperInterceptor extends Controller implements DeadboltHandl
         }
 
         if (!isConnected()) {
-//              ProtectController.signin(); // <---- DO NOT Invoke this way
-            UrlUtility.redirectByReverseRouting("reverseproxy.deadbolt.ProtectController.signin");
+            // <<< DO invoke this way
+            //UrlUtility.redirectByReverseRouting("reverseproxy.deadbolt.ProtectController.signin");
+            try {
+                // or
+                ProtectController.signin();
+            } catch (Throwable throwable) {
+                //throwable.printStackTrace();
+                // Do Nothing...
+            }
         }
 
     }
@@ -70,11 +79,10 @@ public class AccessKeeperInterceptor extends Controller implements DeadboltHandl
     }
 
     public void onAccessFailure(String controllerClassName) {
-//        forbidden(); // Weird, it works without redirect
-
-        // TODO: Set http respose code to forbidden (???)
-        UrlUtility.redirectByReverseRouting("reverseproxy.ProhibitedController.prohibited");
-//        reverseproxy.deadbolt.ProhibitedController.prohibited
+        // <<< DO invoke this way:
+        //  UrlUtility.redirectByReverseRouting("reverseproxy.deadbolt.ProhibitedController.prohibited");
+        // or
+        ProhibitedController.prohibited();
     }
 
     public ExternalizedRestrictionsAccessor getExternalizedRestrictionsAccessor() {
