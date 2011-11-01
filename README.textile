@@ -243,7 +243,7 @@ public class ControllerA extends Controller {
 
 Remember an *Action* must be *public static void*
 
-h4. Invoking an _Action_ from _another Action_ of the _same Controller_
+h4. Invoking an _Action_ from _another Action_ of the _same Controller_ by *Render*
 
 For invoking an Action from another Action of the same Controller, you must call one of the following methods:
 
