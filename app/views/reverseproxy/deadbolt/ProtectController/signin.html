@@ -3,40 +3,51 @@
     &{'protect.title'}
 #{/set}
 #{set 'moreStyles'}
+    #{stylesheet 'reverseproxy/deadbolt/prohibited.css' /}
     #{stylesheet 'reverseproxy/deadbolt/protect.css' /}
 #{/set}
 
-<div id="login">
-	
-	<h1>&{'protect.title'}</h1>
-		
-	#{form @reverseproxy.deadbolt.ProtectController.authenticate()}
-		
-		#{if flash.error}
-			<p class="error">
-				&{flash.error}
-			</p>
-		#{/if}
-		#{if flash.success}
-			<p class="success">
-				&{flash.success}
-			</p>
-		#{/if}
-	
-		<p id="username-field">
-			<label for="username">&{'protect.username'}</label>
-			<input type="text" name="username" id="username" value="${flash.username}" />
-		</p>
-		<p id="password-field">
-			<label for="password">&{'protect.password'}</label>
-			<input type="password" name="password" id="password" value="" />
-		</p>
-		<p id="remember-field">
-			<input type="checkbox" name="remember" id="remember" value="true" ${flash.remember ? 'checked="true"' : ''} />
-			<label for="remember">&{'protect.remember'}</label>
-		</p>
-		<p id="signin-field">
-			<input type="submit" id="signin" value="&{'protect.signin'}" />
-		</p>
-	#{/form}
+<div id="outline">
+    <img src="@{'public/images/reverseproxy/gradient.jpg'}" alt="" height="304" width="800" border="0" />
+    <div id="title">
+        <h3>&{'protect.title_header'}</h3>
+    </div>
+
+    <!--<div id="caption">-->
+        <!--<h4><a href="javascript:history.back()">&{'prohibited.go_back'}</a></h4>-->
+        <!--<h4><a href="/">&{'prohibited.go_home'}</a></h4>-->
+    <!--</div>-->
+
+    <div id="login">
+        #{form @reverseproxy.deadbolt.ProtectController.authenticate()}
+
+            #{if flash.error}
+                <p class="error">
+                    &{flash.error}
+                </p>
+            #{/if}
+            #{if flash.success}
+                <p class="success">
+                    &{flash.success}
+                </p>
+            #{/if}
+
+            <p id="username-field">
+                <label for="username">&{'protect.username'}</label>
+                <input type="text" name="username" id="username" value="${flash.username}" />
+            </p>
+            <p id="password-field">
+                <label for="password">&{'protect.password'}</label>
+                <input type="password" name="password" id="password" value="" />
+            </p>
+            <p id="remember-field">
+                <input type="checkbox" name="remember" id="remember" value="true" ${flash.remember ? 'checked="true"' : ''} />
+                <label for="remember">&{'protect.remember'}</label>
+            </p>
+            <p id="signin-field">
+                <input type="submit" id="signin" value="&{'protect.signin'}" />
+            </p>
+        #{/form}
+    </div>
+
 </div>
